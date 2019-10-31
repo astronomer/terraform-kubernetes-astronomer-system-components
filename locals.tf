@@ -26,5 +26,7 @@ gateways:
     enabled: false
   istio-ilbgateway:
     enabled: false
+  istio-ingressgateway:
+    enabled: false
 EOF
 }
