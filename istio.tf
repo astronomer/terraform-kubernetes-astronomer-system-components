@@ -54,6 +54,14 @@ resource "helm_release" "istio" {
     var.extra_istio_helm_values,
   ]
 
+  dynamic "set" {
+    for_each = var.istio_local_development ? map("gateways.istio-ingressgateway.type", "NodePort") : {}
+    content {
+      name  = set.key
+      value = set.value
+    }
+  }
+
 }
 
 resource "helm_release" "istio_local_gatewaty" {
