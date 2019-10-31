@@ -65,12 +65,5 @@ gateways:
     enabled: false
   istio-ilbgateway:
     enabled: false
-global:
-  istioNamespace: istio-system
-  proxy:
-    envoyStatsd:
-      enabled: false
-      host: null
-      port: null
 EOF
 }
