@@ -50,6 +50,5 @@ resource "helm_release" "istio" {
   version    = var.istio_helm_release_version
   wait       = true
 
-  values = var.enable_istio_local_gateway ? [
-  local.istio_local_gateway_helm_values, var.extra_istio_helm_values] : [var.extra_istio_helm_values]
+  values = compact([var.enable_istio_local_gateway ? local.istio_local_gateway_helm_values : "", var.extra_istio_helm_values])
 }
