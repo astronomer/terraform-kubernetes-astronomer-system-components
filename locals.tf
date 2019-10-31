@@ -6,27 +6,15 @@ locals {
     "gateways.custom-gateway.labels.app"                   = "cluster-local-gateway"
     "gateways.custom-gateway.labels.istio"                 = "cluster-local-gateway"
     "gateways.custom-gateway.type"                         = "ClusterIP"
-    "gateways.istio-ingressgateway.enabled"                = "false"
     "gateways.istio-egressgateway.enabled"                 = "false"
     "gateways.istio-ilbgateway.enabled"                    = "false"
   }
 
   istio_local_gateway_helm_values = <<EOF
 ---
-
 # Common settings.
 global:
-  # Omit the istio-sidecar-injector configmap when generate a
-  # standalone gateway. Gateways may be created in namespaces other
-  # than `istio-system` and we don't want to re-create the injector
-  # configmap in those.
-  omitSidecarInjectorConfigMap: true
-
-  # Istio control plane namespace: This specifies where the Istio control
-  # plane was installed earlier.  Modify this if you installed the control
-  # plane in a different namespace than istio-system.
   istioNamespace: istio-system
-
   proxy:
     # Sets the destination Statsd in envoy (the value of the "--statsdUdpAddress" proxy argument
     # would be <host>:<port>).
@@ -37,8 +25,6 @@ global:
       enabled: false
       host: # example: statsd-svc.istio-system
       port: # example: 9125
-
-
 #
 # Gateways Configuration
 # By default (if enabled) a pair of Ingress and Egress Gateways will be created for the mesh.
@@ -48,7 +34,6 @@ global:
 #
 gateways:
   enabled: true
-
   cluster-local-gateway:
     enabled: true
     labels:
@@ -115,40 +100,5 @@ gateways:
     - name: clusterlocalgateway-ca-certs
       secretName: istio-clusterlocalgateway-ca-certs
       mountPath: /etc/istio/clusterlocalgateway-ca-certs
-
-# all other components are disabled except the gateways
-security:
-  enabled: false
-
-sidecarInjectorWebhook:
-  enabled: false
-
-galley:
-  enabled: false
-
-mixer:
-  policy:
-    enabled: false
-  telemetry:
-    enabled: false
-
-pilot:
-  enabled: false
-
-grafana:
-  enabled: false
-
-prometheus:
-  enabled: false
-
-tracing:
-  enabled: false
-
-kiali:
-  enabled: false
-
-certmanager:
-  enabled: false
-
 EOF
 }
