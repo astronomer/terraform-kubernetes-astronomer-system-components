@@ -165,8 +165,3 @@ variable "enable_istio_local_gateway" {
   type    = bool
   default = false
 }
-
-variable "istio_local_development" {
-  default     = false
-  description = "When using kubernetes kind for creating cluster turn this to true"
-}
