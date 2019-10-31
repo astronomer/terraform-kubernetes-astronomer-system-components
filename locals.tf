@@ -6,8 +6,6 @@ locals {
     "gateways.custom-gateway.labels.app"                   = "cluster-local-gateway"
     "gateways.custom-gateway.labels.istio"                 = "cluster-local-gateway"
     "gateways.custom-gateway.type"                         = "ClusterIP"
-    "gateways.istio-egressgateway.enabled"                 = "false"
-    "gateways.istio-ilbgateway.enabled"                    = "false"
   }
 
   istio_local_gateway_helm_values = <<EOF
