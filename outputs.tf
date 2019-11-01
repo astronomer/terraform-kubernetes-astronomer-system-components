@@ -4,7 +4,9 @@ resource "null_resource" "dependency_setter" {
   # before proceeding
   depends_on = [module.tiller,
     kubernetes_namespace.astronomer,
-  helm_release.istio]
+    helm_release.istio,
+    helm_release.knative,
+  ]
 }
 output "depended_on" {
   value = "${null_resource.dependency_setter.id}-${timestamp()}"
