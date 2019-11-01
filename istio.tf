@@ -52,3 +52,20 @@ resource "helm_release" "istio" {
 
   values = compact([var.enable_istio_local_gateway ? local.istio_local_gateway_helm_values : "", var.extra_istio_helm_values])
 }
+
+resource "kubernetes_namespace" "knative_serving" {
+  count = var.enable_knative ? 1 : 0
+  metadata {
+    name = "knative-serving"
+  }
+}
+
+resource "helm_release" "knative" {
+  depends_on = [helm_release.istio]
+  count      = var.enable_knative ? 1 : 0
+  name       = "knative"
+  chart      = "https://github.com/astronomer/helm-knative/archive/${var.knative_helm_release_version}.tar.gz"
+  namespace  = kubernetes_namespace.knative_serving[0].metadata[0].name
+  version    = var.knative_helm_release_version
+  wait       = true
+}
