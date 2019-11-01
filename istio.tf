@@ -60,11 +60,39 @@ resource "kubernetes_namespace" "knative_serving" {
   }
 }
 
-resource "helm_release" "knative" {
+resource "null_resource" "knative_repo" {
+
+  provisioner "local-exec" {
+    command = <<EOF
+    set -xe
+    rm -rf helm-knative || true
+    git clone https://github.com/astronomer/helm-knative helm-knative
+    cd helm-knative
+    git checkout ${var.knative_helm_release_version}
+    cd ..
+    EOF
+  }
+
+  triggers = {
+    build_number = timestamp()
+  }
+}
+
+resource "helm_release" "knative_crd" {
   depends_on = [helm_release.istio]
   count      = var.enable_knative ? 1 : 0
-  name       = "knative"
-  chart      = "https://github.com/astronomer/helm-knative/archive/${var.knative_helm_release_version}.tar.gz"
+  name       = "knative-crd"
+  chart      = "./helm-knative/charts/crds"
+  namespace  = kubernetes_namespace.knative_serving[0].metadata[0].name
+  version    = var.knative_helm_release_version
+  wait       = true
+}
+
+resource "helm_release" "knative" {
+  depends_on = [helm_release.knative_crd]
+  count      = var.enable_knative ? 1 : 0
+  name       = "knative-serving"
+  chart      = "./helm-knative/charts/serving"
   namespace  = kubernetes_namespace.knative_serving[0].metadata[0].name
   version    = var.knative_helm_release_version
   wait       = true
