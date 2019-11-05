@@ -79,7 +79,7 @@ resource "null_resource" "knative_repo" {
 }
 
 resource "helm_release" "knative_crd" {
-  depends_on = [helm_release.istio]
+  depends_on = [helm_release.istio, null_resource.knative_repo]
   count      = var.enable_knative ? 1 : 0
   name       = "knative-crd"
   chart      = "./helm-knative/charts/crds"
@@ -89,7 +89,7 @@ resource "helm_release" "knative_crd" {
 }
 
 resource "helm_release" "knative" {
-  depends_on = [helm_release.knative_crd]
+  depends_on = [null_resource.knative_repo, helm_release.knative_crd]
   count      = var.enable_knative ? 1 : 0
   name       = "knative-serving"
   chart      = "./helm-knative/charts/serving"
