@@ -61,6 +61,7 @@ resource "kubernetes_namespace" "knative_serving" {
 }
 
 resource "null_resource" "knative_repo" {
+  count = var.enable_knative ? 1 : 0
 
   provisioner "local-exec" {
     command = <<EOF
