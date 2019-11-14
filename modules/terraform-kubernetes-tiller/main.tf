@@ -80,6 +80,7 @@ resource "kubernetes_deployment" "this" {
           app  = "helm"
           name = "tiller"
         }
+        namespace = var.tiller_namespace
       }
 
       spec {
