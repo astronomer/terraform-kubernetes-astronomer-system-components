@@ -9,7 +9,7 @@ resource "helm_release" "cloud_sql_proxy" {
   depends_on = [module.tiller, helm_release.istio]
   count      = var.enable_cloud_sql_proxy ? 1 : 0
   name       = "pg-sqlproxy"
-  version    = "0.13.1"
+  version    = var.cloud_sql_proxy_helm_chart_version
   repository = data.helm_repository.rimusz.0.name
   chart      = "gcloud-sqlproxy"
   namespace  = kubernetes_namespace.astronomer.metadata.0.name

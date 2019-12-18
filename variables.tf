@@ -15,6 +15,12 @@ variable "enable_cloud_sql_proxy" {
   description = "A GCP feature for secure communication with Cloud SQL"
 }
 
+variable "cloud_sql_proxy_helm_chart_version" {
+  default     = "0.19.2"
+  type        = string
+  description = "A GCP feature for secure communication with Cloud SQL"
+}
+
 variable "enable_aws_cluster_autoscaler" {
   default     = false
   type        = string
