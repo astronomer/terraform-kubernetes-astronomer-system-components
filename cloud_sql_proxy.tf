@@ -37,4 +37,8 @@ resource "helm_release" "cloud_sql_proxy" {
     name  = "cloudsql.instances[0].port"
     value = "5432"
   }
+  set {
+    name  = "podAnnotations.cluster-autoscaler\\.kubernetes\\.io/safe-to-evict"
+    value = true
+  }
 }
