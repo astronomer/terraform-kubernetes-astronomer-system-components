@@ -3,7 +3,7 @@ resource "kubernetes_namespace" "astronomer" {
     name = var.astronomer_namespace
     labels = {
       istio-injection = "enabled"
-      name = "astronomer"
+      name            = "astronomer"
     }
   }
 }
