@@ -2,8 +2,7 @@
 resource "null_resource" "dependency_setter" {
   # make sure that the role binding is present
   # before proceeding
-  depends_on = [module.tiller,
-    kubernetes_namespace.astronomer,
+  depends_on = [kubernetes_namespace.astronomer,
     helm_release.istio,
     helm_release.knative,
   ]

@@ -1,12 +1,11 @@
 data "helm_repository" "rimusz" {
-  depends_on = [module.tiller]
   count      = var.enable_cloud_sql_proxy ? 1 : 0
   name       = "rimusz"
   url        = "https://charts.rimusz.net"
 }
 
 resource "helm_release" "cloud_sql_proxy" {
-  depends_on = [module.tiller, helm_release.istio]
+  depends_on = [helm_release.istio]
   count      = var.enable_cloud_sql_proxy ? 1 : 0
   name       = "pg-sqlproxy"
   version    = var.cloud_sql_proxy_helm_chart_version

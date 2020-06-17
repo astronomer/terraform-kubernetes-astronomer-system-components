@@ -9,14 +9,13 @@ resource "kubernetes_namespace" "kubecost" {
 }
 
 data "helm_repository" "kubecost" {
-  depends_on = [module.tiller]
   count      = var.enable_kubecost ? 1 : 0
   name       = "kubecost"
   url        = "https://kubecost.github.io/cost-analyzer/"
 }
 
 resource "helm_release" "kubecost" {
-  depends_on = [module.tiller, helm_release.istio]
+  depends_on = [helm_release.istio]
   count      = var.enable_kubecost ? 1 : 0
   name       = "kubecost"
   version    = var.kubecost_helm_chart_version

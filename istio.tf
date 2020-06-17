@@ -36,7 +36,7 @@ resource "null_resource" "helm_repo" {
 }
 
 resource "helm_release" "istio_init" {
-  depends_on   = [module.tiller, null_resource.helm_repo]
+  depends_on   = [null_resource.helm_repo]
   count        = var.enable_istio == "true" ? 1 : 0
   name         = "istio-init"
   chart        = "./istio/install/kubernetes/helm/istio-init"

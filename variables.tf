@@ -68,16 +68,6 @@ variable "istio_helm_release_version" {
   type    = string
 }
 
-variable "tiller_version" {
-  default = "2.16.1"
-  type    = string
-}
-
-variable "tiller_namespace" {
-  default = "kube-system"
-  type    = string
-}
-
 variable "astronomer_namespace" {
   default = "astronomer"
   type    = string
@@ -95,19 +85,19 @@ variable "dependencies" {
 }
 
 variable "extra_istio_helm_values" {
-  type        = "string"
+  type        = string
   description = "Values in raw yaml to pass to helm to override defaults in Istio Helm Chart."
   default     = ""
 }
 
 variable "extra_googlesqlproxy_helm_values" {
-  type        = "string"
+  type        = string
   description = "Values in raw yaml to pass to helm to override defaults in Google SQL Proxy Helm Chart."
   default     = ""
 }
 
 variable "extra_kubecost_helm_values" {
-  type        = "string"
+  type        = string
   description = "Values in raw yaml to pass to helm to override defaults in the Kubecost Helm Chart."
   default     = ""
 }
@@ -135,7 +125,7 @@ variable "enable_velero" {
 }
 
 variable "extra_velero_helm_values" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "Vales in raw yaml to pass to helm to helm to override defaults in Velero Helm Chart."
 }
@@ -153,18 +143,6 @@ variable "velero_helm_repository" {
 variable "velero_helm_chart_version" {
   default     = "2.1.6"
   description = "Helm Chart Version to use to deploy Velero"
-}
-
-variable "tiller_tolerations" {
-  type        = list(map(string))
-  default     = []
-  description = "Tolerations to apply to Tiller deployment"
-}
-
-variable "tiller_node_selectors" {
-  type        = map(string)
-  default     = {}
-  description = "Map of {label: value} to use as node selector for Tiller deployment"
 }
 
 variable "enable_knative" {
