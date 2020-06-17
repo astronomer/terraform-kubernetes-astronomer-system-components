@@ -9,9 +9,9 @@ resource "kubernetes_namespace" "kubecost" {
 }
 
 data "helm_repository" "kubecost" {
-  count      = var.enable_kubecost ? 1 : 0
-  name       = "kubecost"
-  url        = "https://kubecost.github.io/cost-analyzer/"
+  count = var.enable_kubecost ? 1 : 0
+  name  = "kubecost"
+  url   = "https://kubecost.github.io/cost-analyzer/"
 }
 
 resource "helm_release" "kubecost" {

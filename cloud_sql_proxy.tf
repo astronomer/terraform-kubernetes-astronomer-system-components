@@ -1,7 +1,7 @@
 data "helm_repository" "rimusz" {
-  count      = var.enable_cloud_sql_proxy ? 1 : 0
-  name       = "rimusz"
-  url        = "https://charts.rimusz.net"
+  count = var.enable_cloud_sql_proxy ? 1 : 0
+  name  = "rimusz"
+  url   = "https://charts.rimusz.net"
 }
 
 resource "helm_release" "cloud_sql_proxy" {
