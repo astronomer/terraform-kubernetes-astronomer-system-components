@@ -45,3 +45,9 @@ variable "node_selectors" {
   default     = {}
   description = "Map of {label: value} to use as node selector for Tiller deployment"
 }
+
+variable "enable_tiller" {
+  type    = bool
+  default = true
+  description = "Enable tiller if using Helm 2"
+}

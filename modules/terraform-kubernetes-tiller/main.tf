@@ -1,4 +1,5 @@
 resource "kubernetes_service_account" "this" {
+  count = var.enable_tiller ? 1 : 0
   metadata {
     name      = var.tiller_service_account_name
     namespace = var.tiller_namespace
@@ -16,6 +17,7 @@ resource "kubernetes_service_account" "this" {
 }
 
 resource "kubernetes_cluster_role_binding" "this" {
+  count = var.enable_tiller ? 1 : 0
   metadata {
     name = "tiller"
 
@@ -35,12 +37,13 @@ resource "kubernetes_cluster_role_binding" "this" {
   subject {
     api_group = ""
     kind      = "ServiceAccount"
-    name      = kubernetes_service_account.this.metadata[0].name
-    namespace = kubernetes_service_account.this.metadata[0].namespace
+    name      = kubernetes_service_account.this[0].metadata[0].name
+    namespace = kubernetes_service_account.this[0].metadata[0].namespace
   }
 }
 
 resource "kubernetes_deployment" "this" {
+  count = var.enable_tiller ? 1 : 0
   metadata {
     name      = "tiller-deploy"
     namespace = var.tiller_namespace
@@ -116,14 +119,14 @@ resource "kubernetes_deployment" "this" {
         }
 
         volume {
-          name = kubernetes_service_account.this.default_secret_name
+          name = kubernetes_service_account.this[0].default_secret_name
           secret {
-            secret_name = kubernetes_service_account.this.default_secret_name
+            secret_name = kubernetes_service_account.this[0].default_secret_name
           }
         }
 
         #priority_class_name = "system-cluster-critical"
-        service_account_name = kubernetes_service_account.this.metadata[0].name
+        service_account_name = kubernetes_service_account.this[0].metadata[0].name
 
         container {
 
@@ -176,7 +179,7 @@ resource "kubernetes_deployment" "this" {
 
           volume_mount {
             mount_path = "/var/run/secrets/kubernetes.io/serviceaccount"
-            name       = kubernetes_service_account.this.default_secret_name
+            name       = kubernetes_service_account.this[0].default_secret_name
             read_only  = true
           }
 
@@ -189,6 +192,7 @@ resource "kubernetes_deployment" "this" {
 }
 
 resource "kubernetes_service" "this" {
+  count = var.enable_tiller ? 1 : 0
   metadata {
     labels = {
       "app.kubernetes.io/name"       = "helm"

@@ -45,7 +45,7 @@ resource "kubernetes_role_binding" "tiller-velero" {
 
 resource "helm_release" "velero" {
   count      = var.enable_velero ? 1 : 0
-  depends_on = ["kubernetes_role.tiller-velero", "kubernetes_role_binding.tiller-velero"]
+  depends_on = [kubernetes_role.tiller-velero, kubernetes_role_binding.tiller-velero]
   name       = "velero"
   repository = var.velero_helm_repository
   chart      = "velero"

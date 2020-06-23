@@ -95,19 +95,19 @@ variable "dependencies" {
 }
 
 variable "extra_istio_helm_values" {
-  type        = "string"
+  type        = string
   description = "Values in raw yaml to pass to helm to override defaults in Istio Helm Chart."
   default     = ""
 }
 
 variable "extra_googlesqlproxy_helm_values" {
-  type        = "string"
+  type        = string
   description = "Values in raw yaml to pass to helm to override defaults in Google SQL Proxy Helm Chart."
   default     = ""
 }
 
 variable "extra_kubecost_helm_values" {
-  type        = "string"
+  type        = string
   description = "Values in raw yaml to pass to helm to override defaults in the Kubecost Helm Chart."
   default     = ""
 }
@@ -135,7 +135,7 @@ variable "enable_velero" {
 }
 
 variable "extra_velero_helm_values" {
-  type        = "string"
+  type        = string
   default     = ""
   description = "Vales in raw yaml to pass to helm to helm to override defaults in Velero Helm Chart."
 }
@@ -176,4 +176,10 @@ variable "enable_knative" {
 variable "knative_helm_release_version" {
   default     = "0.1.0"
   description = "Helm Chart Version to use to deploy Knative"
+}
+
+variable "enable_tiller" {
+  type        = bool
+  default     = true
+  description = "Enable tiller if using Helm 2"
 }
